@@ -56,15 +56,15 @@ let returnImageLink=(inputNumber)=>{//function for get image link by number
 
 let checkGameWin=(inputNumberOne,inputNumberTwo)=>{//function for check win or lost, win will get 1, lost will get -1;also update this round win or lost information
     if(inputNumberOne===inputNumberTwo){//when 2 random numbers have the same value, return 1
-        statusText.innerHTML="You win this round.";//update win this round information 
+        statusText.innerHTML="A pair of"+inputNumberOne+", you win this round.";//update win this round information 
         return 1;
     }
     else if(inputNumberOne+inputNumberTwo===7){//when sum of the 2 random numbers equals 7, return 1
-        statusText.innerHTML="You win this round.";//update win this round information 
+        statusText.innerHTML="Lucky 7, you win this round.";//update win this round information 
         return 1;
     }
     else if(inputNumberOne+inputNumberTwo===11){//when sum of the 2 random numbers equals 11, return 1
-        statusText.innerHTML="You win this round.";//update win this round information 
+        statusText.innerHTML="Lucky 11, you win this round.";//update win this round information 
         return 1;
     }
     else{//other situation return -1
