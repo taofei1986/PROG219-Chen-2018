@@ -15,9 +15,21 @@ let buttonClicked=()=>{
     let randomNumberOne=Math.floor(Math.random()*6+1);//get first random number
     let randomNumberTwo=Math.floor(Math.random()*6+1);//get second random number
     let winOrlost=checkGameWin(randomNumberOne,randomNumberTwo);// get win or lost for this round, win will be 1, lost will be -1;
+
+    let diceShow = setInterval(//change imageOne and imageTwo image every 50ms by random number input,
+        (()=>{
+            let diceShowRandomOne=Math.floor(Math.random()*6+1);//get first random number for dice show;
+            let diceShowRandomtwo=Math.floor(Math.random()*6+1);//get second random number for dice show;
+            imageOne.src=returnImageLink(diceShowRandomOne);//change image1 image by diceShowRandomOne
+            imageTwo.src=returnImageLink(diceShowRandomtwo);//change image2 image by diceShowRandomtwo
+    }), 50);
+    setTimeout(//after 1s stop diceShow, and update two dices with first and second number we define at beginning.
+        ()=>{
+            clearInterval(diceShow);//stops the executions of diceShow
+            imageOne.src=returnImageLink(randomNumberOne);//change image1 image by randomNumberOne
+            imageTwo.src=returnImageLink(randomNumberTwo);//change image2 image by randomNumberTwo
+        }, 1000);
     
-    imageOne.src=returnImageLink(randomNumberOne);//change image1 image by randomNumberOne
-    imageTwo.src=returnImageLink(randomNumberTwo);//change image2 image by randomNumberTwo
     balanceNumber=balanceNumber+winOrlost;//update win or lost money;
     balanceText.innerHTML=balanceNumber;// update balance display in web page
     roundNumber++;//add one for each round, count for how many round it is now.
