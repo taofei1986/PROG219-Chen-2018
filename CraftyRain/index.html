@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <style>
+          body
+          {
+              background-image: url(retro-pic.jpg);
+              background-repeat: no-repeat;
+              background-size: cover;
+          }
+        #game
+        {
+          border:solid 5px #0062FF;
+          border-radius:8px;
+            background-image:url(cloudy.jpeg);
+        }
+          .button, #message
+          {
+              text-align: center;
+              color:rgb(231, 141, 253);
+          }
+      </style>
+  </head>
+  <body>
+    <audio id="music" loop src="Rain.mp3" autoplay></audio>
+    <div id="game" style="margin:0 auto;"></div>
+    <script type="text/javascript" src="lib/crafty.js"></script>
+    <script src="src/components.js"></script>
+    <script src="src/rain.js"></script>
+      <br />
+      <div class="button">
+        <input  type="button" value="pause" onclick="pause()" />
+      </div>
+      <br />
+      <h3 class="button" >Score:</h3>
+    <div class="button" id="message"></div>
+  </body>
+</html>

@@ -1,5 +1,5 @@
-//rain
-Crafty.c('Rain',{
+//rain drop
+Crafty.c('Drop',{
     init:function(){
         this.requires('2D, Canvas, Color, Gravity, Collision')
         .color('#000080')
@@ -9,12 +9,12 @@ Crafty.c('Rain',{
 });
 
 //player
-Crafty.c('PlayerCharacter', {
+Crafty.c('Player', {
     init: function() {
         this.requires('2D,Canvas,Twoway,Gravity,Collision,Canvas, Color')
         .twoway(10)
-        .attr({ w: 50, h: 50})
-        .color('#D0D')
+        .attr({w: 30, h: 30})
+        .color('#FD1C03')
         .gravity('Floor')
         .gravityConst(25)
         .stopOnScreenSide();
@@ -40,5 +40,13 @@ Crafty.c('ScreenSide',{
         this.requires('2D,Canvas,Collision,Canvas, Color,solid')
         .attr({w:10,h:screenHeight})
         .color('#000');
+    }
+});
+//Floor
+Crafty.c('Floor',{
+    init:function(){
+        this.requires('2D, Canvas, Solid, Color')
+        .attr({w: screenWidth, h: 20})
+        .color('#9D00FF');
     }
 });
