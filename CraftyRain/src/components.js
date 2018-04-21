@@ -22,6 +22,18 @@ Crafty.c('Player', {
         .gravity('Floor')
         // .gravityConst(25) //do not works in new crafty version
         .stopOnScreenSide()
+        .animate('PlayerMovingRight', 0, 0, 2)
+        .animate('PlayerMovingLeft',  0, 1, 7);
+        var animation_speed = 8;
+        this.bind('NewDirection', function(data) {
+            if (data.x > 0) {
+                this.animate('PlayerMovingRight', animation_speed, -1);
+            } else if (data.x < 0) {
+                this.animate('PlayerMovingLeft', animation_speed, -1);
+            } else {
+                this.stop();
+            }
+        });
     },
     // Registers a stop-movement function to be called when
     // this entity hits an entity with the "ScreenSide" component.
