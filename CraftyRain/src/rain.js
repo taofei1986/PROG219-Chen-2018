@@ -41,7 +41,7 @@ hitText.textFont({
 // drop rain at random x place from 50 to 50+screenWidth
 function drop()
 {
-  let randomx = Math.floor((Math.random() * screenWidth) + 50);
+  let randomx = Math.floor((Math.random() * screenWidth) + 60);
     Crafty.e('Drop')
         .attr({x: randomx, y: 0, w: 2, h: 10})
         .onHit('Player', function(){

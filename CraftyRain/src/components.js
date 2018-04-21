@@ -1,32 +1,36 @@
+//this is supposed to load the sprite
+
+Crafty.sprite(40,56,'images/cat.png', {
+    str_player:[0, 0]
+});
+
 //rain drop
 Crafty.c('Drop',{
     init:function(){
         this.requires('2D, Canvas, Color, Gravity, Collision')
-        .color('#91A5BA')
+        .color('#0099ff')
         .gravity()
-        .gravityConst(0.2);
+        //.gravityConst(0.2);//do not works in new crafty version
     }
 });
 
 //player
 Crafty.c('Player', {
     init: function() {
-        this.requires('2D,Canvas,Twoway,Gravity,Collision,Canvas, Color')
-        .twoway(10)
-        .attr({w: 30, h: 30})
-        .color('#FD1C03')
+        this.requires('2D,Canvas,DOM,Twoway,Gravity,Collision,str_player,SpriteAnimation')//this calls the sprite
+        .twoway(4)
         .gravity('Floor')
-        .gravityConst(25)
-        .stopOnScreenSide();
+        // .gravityConst(25) //do not works in new crafty version
+        .stopOnScreenSide()
     },
     // Registers a stop-movement function to be called when
-    // this entity hits an entity with the "Solid" component
+    // this entity hits an entity with the "ScreenSide" component.
     stopOnScreenSide: function() {
         this.onHit('ScreenSide', this.stopMovement);
         return this;
     },
     // Stops the movement
-    stopMovement: function() {
+    stopMovement: function() {// this does not work in new version
         this._speed = 0;
         if (this._movement) {
         this.x -= this._movement.x;
