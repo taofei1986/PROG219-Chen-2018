@@ -2,7 +2,7 @@
 Crafty.c('Drop',{
     init:function(){
         this.requires('2D, Canvas, Color, Gravity, Collision')
-        .color('#000080')
+        .color('#91A5BA')
         .gravity()
         .gravityConst(0.2);
     }

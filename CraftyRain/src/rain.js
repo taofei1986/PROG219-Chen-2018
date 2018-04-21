@@ -47,13 +47,13 @@ function drop()
         .onHit('Player', function(){
             this.destroy();
             hitCounter++;
-            hitText.text("Hit: " + hitCounter);
+            hitText.text("Hit:" + hitCounter);
 
             if (hitCounter == 5)//reset player1 location and hit counter
             {
               player1.x = 20;
               hitCounter = 0;
-              hitText.text("Hit: " + hitCounter);
+              hitText.text("Hit:" + hitCounter);
             }
         })
         .bind("EnterFrame", function() {
