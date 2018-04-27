@@ -2,6 +2,8 @@ body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #FAEBD7;
+  background-image: (..background.jpeg);
+  background-size: cover;
 }
 
 a {
