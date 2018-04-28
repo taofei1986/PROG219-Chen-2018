@@ -4,6 +4,7 @@ body {
   /*background-color: #FAEBD7;*/
   background-image: url(../light.jpg);
   background-size: cover;
+  color:white;
 }
 
 a {
