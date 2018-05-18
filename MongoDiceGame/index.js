@@ -28,19 +28,33 @@ window.onload = function () {
  });
  $(document).on("pagebeforeshow", "#LosePage",function(event){
     deletUser();
+    //reset state value
+    state = {
+        balance: 5,
+        betAmount: 2,
+        currentFirstName: "Not",
+        currentLastName: "Set",
+        IsSelectPlayer:false
+    }
 });
  
  $(document).on("pagebeforeshow", "#PickBet",function(event){
-     var which = $('#IDparmHere').text();
+     var which = findIndex($('#IDparmHere').text());//get the index of the selected user
+     //$('#IDparmHere').text() will get the _id value
      state.currentFirstName = userArray[which].PlayerFirstName;
      state.currentLastName = userArray[which].PlayerLastName;
      state.balance = userArray[which].PlayerBalance;
+     state.IsSelectPlayer=true;
      var x = "Welcome " + state.currentFirstName + " " + state.currentLastName + " You have $" + state.balance;
      $('#welcome').text(x);
  });
 
 
  $(document).on("pagebeforeshow", "#game",function(event){
+     if(!state.IsSelectPlayer){// not select player can not get in pickbet page, will return to pickplayer page
+        document.location.href = "#pickplayer";
+        return
+     }
      document.getElementById("turnCount").innerText = 0;
      document.getElementById("balance").innerText = state.balance;
      document.getElementById("status").innerText = "Good luck!";
@@ -70,7 +84,8 @@ var state = {
  balance: 5,
  betAmount: 2,
  currentFirstName: "Not",
- currentLastName: "Set"
+ currentLastName: "Set",
+ IsSelectPlayer:false// select some player 
 }
 
 
@@ -96,7 +111,7 @@ $.getJSON( '/users/userlist', function( data ) {
  $('#playerul').empty(); // don't want to keep adding old li s to old li s
  userArray.forEach(function(element) {
      $('#playerul').append('<li><a data-transition="pop" class="onePlayer" data-parm=' + 
-     element.PlayerID + ' href="#PickBet" > Pick your bet size.  ' + 
+     element._id + ' href="#PickBet" > Pick your bet size.  ' + //change playerID to _id because of it is the unique key
      element.PlayerFirstName + ' ' + element.PlayerLastName + ' </a></li>' );
    });
    $('#playerul').listview('refresh');
@@ -129,7 +144,6 @@ function addNewUser(){
 
     }
   });
-  //update playerID here with mongodb _id;---------------------------------------------------->need work!
  // end of calling mongo
  document.location.href = "#pickplayer";
 };
@@ -140,17 +154,14 @@ function buttonClicked() {
 if(state.balance <= 0) {
     (document.getElementById("ButtonBet")).style.visibility = 'hidden';
 
-    var which = $('#IDparmHere').text();
+    var which = findIndex($('#IDparmHere').text());
     state.currentFirstName = ""; 
     state.currentLastName = ""; 
     state.balance = userArray[which].PlayerBalance = 0;
-
-
-
-    document.location.href = "index.html#LosePage";
+    document.location.href = "#LosePage";
 }
 if(state.balance >= 20) {
-    document.location.href = "index.html#WinPage";
+    document.location.href = "#WinPage";
 }
 };
 
@@ -161,6 +172,8 @@ function GetNewBalance(balance) {
  var dice2txt = "images/dice-" + dice[1] + ".jpg";
  document.getElementById("image1").src = dice1txt;
  document.getElementById("image2").src = dice2txt;
+ balance=parseInt(balance);
+ state.betAmount=parseInt(state.betAmount);
  if (dice[0] == dice[1] || dice[0] + dice[1] == 7 || dice[0] + dice[1] == 11) {
      balance = balance + state.betAmount;
      (document.getElementById("status")).innerText = "You Win!";
@@ -185,5 +198,24 @@ function RollDice(dice) {
 }
 
 function deletUser(){
+    let which = $('#IDparmHere').text();
+    $.ajax({
+        type: 'DELETE',
+        url: '/users/deleteuser/' + which
+      }).done(function( response ) {  
+        // Check for a successful (blank) response
+        if (response.msg === '') {
+        }
+        else {
+          alert('Error: ' + response.msg);
+        }
+    });
+}
 
+function findIndex(pString){
+    for(i=0;i<userArray.length;i++){
+        if(userArray[i]._id=pString){
+            return i;
+        }
+    }
 }
