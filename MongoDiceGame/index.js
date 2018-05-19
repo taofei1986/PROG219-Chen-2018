@@ -1,22 +1,25 @@
 window.onload = function () {
     $(document).on('click', '#ButtonBet', function(event){
-     buttonClicked();
- });
- $(document).on('click', '#create', function(event){
-     addNewUser();
- }); 
- $(document).on('click', '#bet1', function(event){
-     state.betAmount = 1;
-     document.location.href = "#game";
- });
- $(document).on('click', '#bet2', function(event){
-     state.betAmount = 2;
-     document.location.href = "#game";
- });
- $(document).on('click', '#bet5', function(event){
-     state.betAmount = 5;
-     document.location.href = "#game";
- });
+        buttonClicked();
+    });
+    $(document).on('click', '#QuitGame', function(event){
+        updateDB();
+       });
+    $(document).on('click', '#create', function(event){
+        addNewUser();
+    }); 
+    $(document).on('click', '#bet1', function(event){
+        state.betAmount = 1;
+        document.location.href = "#game";
+    });
+    $(document).on('click', '#bet2', function(event){
+        state.betAmount = 2;
+        document.location.href = "#game";
+    });
+    $(document).on('click', '#bet5', function(event){
+        state.betAmount = 5;
+        document.location.href = "#game";
+    });
 
  userArray.length = 0;
 //  userArray[userArray.length] = new PlayerObject(userArray.length, "Fast", "Eddy", 10 );
@@ -34,7 +37,8 @@ window.onload = function () {
         betAmount: 2,
         currentFirstName: "Not",
         currentLastName: "Set",
-        IsSelectPlayer:false
+        IsSelectPlayer:false,
+        player_id:""
     }
 });
  
@@ -45,6 +49,7 @@ window.onload = function () {
      state.currentLastName = userArray[which].PlayerLastName;
      state.balance = userArray[which].PlayerBalance;
      state.IsSelectPlayer=true;
+     state.player_id=userArray[which]._id;
      var x = "Welcome " + state.currentFirstName + " " + state.currentLastName + " You have $" + state.balance;
      $('#welcome').text(x);
  });
@@ -58,7 +63,7 @@ window.onload = function () {
      document.getElementById("turnCount").innerText = 0;
      document.getElementById("balance").innerText = state.balance;
      document.getElementById("status").innerText = "Good luck!";
-     document.getElementById("ButtonBet").style.visibility = 'show';
+     document.getElementById("ButtonBet").style.display = 'inline';
  });
 
 
@@ -81,11 +86,12 @@ window.onload = function () {
 //=====================================================================
 // functions not required to be in window.onload
 var state = {
- balance: 5,
- betAmount: 2,
- currentFirstName: "Not",
- currentLastName: "Set",
- IsSelectPlayer:false// select some player 
+    balance: 5,
+    betAmount: 2,
+    currentFirstName: "Not",
+    currentLastName: "Set",
+    IsSelectPlayer:false,
+    player_id:""
 }
 
 
@@ -152,7 +158,7 @@ function buttonClicked() {
  state.balance = GetNewBalance(state.balance);
 (document.getElementById("balance")).innerText = state.balance;
 if(state.balance <= 0) {
-    (document.getElementById("ButtonBet")).style.visibility = 'hidden';
+    (document.getElementById("ButtonBet")).style.display = 'none';
 
     var which = findIndex($('#IDparmHere').text());
     state.currentFirstName = ""; 
@@ -214,8 +220,36 @@ function deletUser(){
 
 function findIndex(pString){
     for(i=0;i<userArray.length;i++){
-        if(userArray[i]._id=pString){
+        if(userArray[i]._id==pString){
             return i;
         }
     }
+}
+function updateDB(){
+    var updateUser={
+        balance:state.balance,
+        playerID:state.player_id
+    };
+    console.log(updateUser);
+    $.ajax({
+        type: 'POST',
+        data: updateUser,
+        url: '/users/update',
+        dataType: 'JSON'
+      }).done(function( response ) {
+    
+        if (response.msg === '') {
+    
+          // Clear the form inputs
+          $('#firstName').val('');
+          $('#lastName').val('');
+        }
+        else {
+    
+          // If something goes wrong, alert the error message that our service returned
+          alert('Error: ' + response.msg);
+    
+        };
+    });
+    document.location.href = "#Home";// end of calling mongo
 }

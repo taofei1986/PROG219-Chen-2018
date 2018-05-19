@@ -32,4 +32,19 @@ router.delete('/deleteuser/:id', function(req, res) {
   });
 });
 
+/* update balance by _id. */
+router.post('/update', function(req, res) {
+  var db = req.db;
+  var collection = db.get('playerlist');
+  var updateUser=req.body;
+  console.log(updateUser);
+  collection.update(
+    { "_id":  updateUser.playerID},
+    {
+      $set: { "PlayerBalance" : updateUser.balance}
+    },
+    { upsert: true }
+  );
+});
+
 module.exports = router;
