@@ -225,6 +225,7 @@ function findIndex(pString){
         }
     }
 }
+
 function updateDB(){
     var updateUser={
         balance:state.balance,
@@ -239,16 +240,10 @@ function updateDB(){
       }).done(function( response ) {
     
         if (response.msg === '') {
-    
-          // Clear the form inputs
-          $('#firstName').val('');
-          $('#lastName').val('');
         }
         else {
-    
-          // If something goes wrong, alert the error message that our service returned
-          alert('Error: ' + response.msg);
-    
+              // If something goes wrong, alert the error message that our service returned
+          alert('Error: ' + response.msg);    
         };
     });
     document.location.href = "#Home";// end of calling mongo
