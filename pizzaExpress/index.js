@@ -1,4 +1,8 @@
-let userName="";
+let user={
+    userName:"",
+    userID:"",
+    userAddress:""
+};
 window.onload = function () {
 
     $(document).on('click', '#log-in', function(event){
@@ -36,11 +40,11 @@ window.onload = function () {
     });
 
     $(document).on("pagebeforeshow", "#order",function(event){
-        if(userName===""){
+        if(user.userName===""){
             document.location.href = "#log";
         }
         else{
-            $("#welcomeOrder").text("Welcome, "+userName+"! What do you want to eat today.");
+            $("#welcomeOrder").text("Welcome, "+user.userName+"! What do you want to eat today.");
         }
     });
 }
@@ -78,7 +82,9 @@ function loginUser()
         if(response.loginSuccess){
             $('#uername').val('');
             $('#password').val('');
-            userName=loginUername;
+            user.userAddress=response.userInfo.address;
+            user.userName=response.userInfo.username;
+            user.userID=response.userInfo._id;
             document.location.href = "#order";
         }
         else{
@@ -146,7 +152,10 @@ function createUser()
             $('#createPassword').val('');
             $('#reinputPassword').val('');
             $('#createAddress').val('');
-            userName=createUername;
+            user.userAddress=response.userInfo.address;
+            user.userName=response.userInfo.username;
+            user.userID=response.userInfo._id;
+            console.log(user.userID);
             document.location.href = "#order";
         }
     })

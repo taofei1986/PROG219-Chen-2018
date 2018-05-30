@@ -14,9 +14,9 @@ router.post('/adduser', function(req, res) {
         res.send({msg:'server or db error'});
     }else{
       if(docs.length==0){
-        collection.insert(req.body, function(err, result){
+        collection.insert(req.body, function(err, userInfo){
           res.send(
-            (err === null) ? { msg: 'create accout success' } : { msg: err }
+            (err === null) ? {userInfo} : { msg: err }
           );
         })
       }
@@ -44,7 +44,7 @@ router.post('/login', function(req, res) {
         );
       }
       else{
-        res.send({msg:'login success',loginSuccess:true});
+        res.send({msg:'login success',loginSuccess:true,userInfo:docs[0]});
       }
     }
   })
